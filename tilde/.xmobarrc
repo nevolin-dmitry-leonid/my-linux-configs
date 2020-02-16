@@ -1,0 +1,17 @@
+Config
+  { font = "xft:Ubuntu Mono:size=14"
+  , bgColor = "black"
+  , fgColor = "grey"
+  , position = TopW L 100
+  , lowerOnStart = True
+  , commands =
+    [ Run StdinReader
+    , Run Date "%a %T %d.%m.%Y" "date" 1
+    , Run Com "/bin/bash" ["-c","sensors|grep temp1|cut -d + -f2|cut -d . -f1"] "tcpu" 1
+    , Run Com "nvidia-settings" ["-t","-q","[gpu:0]/GPUCoreTemp"] "tgpu" 1
+    , Run Kbd [("us", "US"), ("ru", "RU")]
+    ]
+  , sepChar = "%"
+  , alignSep = "}{"
+  , template = " %StdinReader% }{ %kbd% <fc=#EF5350>CPU:%tcpu% GPU:%tgpu%</fc> %date% "
+  }

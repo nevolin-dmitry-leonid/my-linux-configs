@@ -1,0 +1,13 @@
+xlogin.Login.greeting:
+xlogin.Login.unsecureGreeting:
+xlogin.Login.fail:                Login incorrect
+xlogin.Login.echoPasswd:          true
+xlogin.Login.background:          black
+xlogin.Login.foreground:          grey
+xlogin.Login.failColor:           #EF5350
+xlogin.Login.inpColor:            black
+xlogin.Login.promptColor:         grey
+xlogin.Login.face:                Ubuntu Mono-14
+xlogin.Login.failFace:            Ubuntu Mono-14
+xlogin.Login.promptFace:          Ubuntu Mono-14
+xlogin.Login.greetFace:           Ubuntu Mono-14
