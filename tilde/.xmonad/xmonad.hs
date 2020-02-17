@@ -1,8 +1,10 @@
 import XMonad
+import XMonad.Actions.CopyWindow(copyToAll, killAllOtherCopies)
 import XMonad.Actions.NoBorders(toggleBorder)
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.IndependentScreens(countScreens, withScreens, onCurrentScreen)
 import XMonad.Layout.NoBorders(smartBorders)
 import XMonad.Util.EZConfig(additionalKeys)
@@ -13,12 +15,15 @@ import qualified XMonad.StackSet as W
 
 mModMask = mod4Mask
 mWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+mManageHook = composeAll
+  [ className =? "TeamViewer" --> doCenterFloat
+  ]
 
 main = do
   xmproc <- spawnPipe "xmobar"
   mScreens <- countScreens
   xmonad $ ewmh def
-    { manageHook = manageDocks <+> manageHook def
+    { manageHook = manageDocks <+> mManageHook <+> manageHook def
     , layoutHook = avoidStruts $ smartBorders $ layoutHook def
     , handleEventHook = handleEventHook def <+> fullscreenEventHook <+> docksEventHook <+> ewmhDesktopsEventHook
     , logHook = dynamicLogWithPP xmobarPP
@@ -37,7 +42,9 @@ main = do
     } `additionalKeys`
     [ ((mModMask, xK_p), spawn "dmenu_run -fn 'Ubuntu Mono-14' -nb 'black' -nf 'grey' -sb '#1B5E20' -sf 'grey' -h 24")
     , ((mModMask, xK_f), sendMessage ToggleStruts)
-    , ((mModMask, xK_b), withFocused toggleBorder)
+    , ((mModMask, xK_g), withFocused toggleBorder)
+    , ((mModMask, xK_v), windows copyToAll)
+    , ((mModMask .|. shiftMask, xK_v), killAllOtherCopies)
     , ((0, xK_Print), spawn "scrot -e 'mv $f ~/.scrot/'")
     ] `additionalKeys`
     if mScreens > 1 then
