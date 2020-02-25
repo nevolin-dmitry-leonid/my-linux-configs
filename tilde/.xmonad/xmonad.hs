@@ -17,6 +17,8 @@ mModMask = mod4Mask
 mWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 mManageHook = composeAll
   [ className =? "TeamViewer" --> doCenterFloat
+  , className =? "Matplotlib" --> doCenterFloat
+  , className =? "Sxiv" --> doFullFloat
   ]
 
 main = do
