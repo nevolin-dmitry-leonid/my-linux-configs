@@ -13,8 +13,12 @@ import System.IO
 
 import qualified XMonad.StackSet as W
 
+
+mGreen = "#1B5E20"
+mBlue = "#0D47A1"
+
 mModMask = mod4Mask
-mWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+mWorkspaces = (\n -> map show [1..n]) 9
 mManageHook = composeAll
   [ className =? "TeamViewer" --> doCenterFloat
   , className =? "Matplotlib" --> doCenterFloat
@@ -30,19 +34,19 @@ main = do
     , handleEventHook = handleEventHook def <+> fullscreenEventHook <+> docksEventHook <+> ewmhDesktopsEventHook
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = hPutStrLn xmproc
-      , ppCurrent = xmobarColor "grey" "#1B5E20" . wrap " " " "
-      , ppVisible = xmobarColor "grey" "#0d47a1" . wrap " " " "
+      , ppCurrent = xmobarColor "grey" mGreen . wrap " " " "
+      , ppVisible = xmobarColor "grey" mBlue . wrap " " " "
       , ppTitle = (\str -> "")
       , ppLayout = (\str -> "")
       }
     , modMask = mModMask
     , terminal = "xterm"
-    , normalBorderColor = "#0d47a1"
-    , focusedBorderColor = "#1B5E20"
+    , normalBorderColor = mBlue
+    , focusedBorderColor = mGreen
     , borderWidth = 1
     , workspaces = if mScreens > 1 then withScreens mScreens mWorkspaces else mWorkspaces
     } `additionalKeys`
-    [ ((mModMask, xK_p), spawn "dmenu_run -fn 'Ubuntu Mono-14' -nb 'black' -nf 'grey' -sb '#1B5E20' -sf 'grey' -h 24")
+    [ ((mModMask, xK_p), spawn $ "dmenu_run -fn 'Ubuntu Mono-14' -nb 'black' -nf 'grey' -sb '" ++ mGreen ++ "' -sf 'grey' -h 24")
     , ((mModMask, xK_f), sendMessage ToggleStruts)
     , ((mModMask, xK_g), withFocused toggleBorder)
     , ((mModMask, xK_v), windows copyToAll)
