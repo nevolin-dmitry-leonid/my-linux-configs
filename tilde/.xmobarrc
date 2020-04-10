@@ -6,9 +6,9 @@ Config
   , lowerOnStart = True
   , commands =
     [ Run StdinReader
-    , Run Date "%a %T %d.%m.%Y" "date" 1
-    , Run Com "/bin/bash" ["-c","sensors|grep temp1|cut -d + -f2|cut -d . -f1"] "tcpu" 1
-    , Run Com "nvidia-settings" ["-t","-q","[gpu:0]/GPUCoreTemp"] "tgpu" 1
+    , Run Date "%a %T %d.%m.%Y" "date" 10
+    , Run Com "/bin/bash" ["-c","sensors|grep temp1|cut -d + -f2|cut -d . -f1"] "tcpu" 10
+    , Run Com "nvidia-settings" ["-t","-q","[gpu:0]/GPUCoreTemp"] "tgpu" 10
     , Run Kbd [("us", "US"), ("ru", "RU")]
     ]
   , sepChar = "%"
