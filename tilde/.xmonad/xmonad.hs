@@ -7,11 +7,10 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.IndependentScreens(countScreens, withScreens, onCurrentScreen)
 import XMonad.Layout.NoBorders(smartBorders)
+import XMonad.StackSet(greedyView, shift)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Run(spawnPipe)
 import System.IO
-
-import qualified XMonad.StackSet as W
 
 
 mGreen = "#1B5E20"
@@ -26,8 +25,8 @@ mManageHook = composeAll
   ]
 
 main = do
-  xmproc <- spawnPipe "xmobar"
   mScreens <- countScreens
+  xmproc <- spawnPipe "xmobar"
   xmonad $ ewmh def
     { manageHook = manageDocks <+> mManageHook <+> manageHook def
     , layoutHook = avoidStruts $ smartBorders $ layoutHook def
@@ -56,6 +55,6 @@ main = do
     if mScreens > 1 then
       [ ((m .|. mModMask, k), windows $ onCurrentScreen f i)
            | (i, k) <- zip (mWorkspaces) [xK_1 .. xK_9]
-           , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+           , (f, m) <- [(greedyView, 0), (shift, shiftMask)]
       ]
     else []
